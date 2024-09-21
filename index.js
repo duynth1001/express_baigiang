@@ -3,11 +3,16 @@ import express from 'express'
 import pool from './db.js';
 import { OK, INTERNAL_SERVER } from './const.js';
 import rootRouters from './src/routes/root.router.js';
+import cors from 'cors'
 //b2: tao object express
 const app = express();
 
 //Thêm middleware để đọc data json
 app.use(express.json());
+
+
+//thêm middleware cors để FE có thể call API tới BE
+app.use(cors());
 
 //import rootRoutes
 app.use(rootRouters);

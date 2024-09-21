@@ -8,3 +8,5 @@ const pool =mysql.createPool({
     port: 3308
 })
 export default pool;
+
+// npx sequelize-auto -h localhost -d node44_youtube -u root -x 123456 -p 3307 --dialect mysql -o src/models -l esm

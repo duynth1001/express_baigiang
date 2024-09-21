@@ -1,30 +1,34 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class user extends Model {
+export default class chat extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    user_id: {
+    id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    full_name: {
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    content: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    email: {
-      type: DataTypes.STRING(255),
+    room_id: {
+      type: DataTypes.STRING(50),
       allowNull: true
     },
-    pass_word: {
-      type: DataTypes.STRING(255),
+    date: {
+      type: DataTypes.DATE,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'user',
+    tableName: 'chat',
     timestamps: false,
     indexes: [
       {
@@ -32,7 +36,7 @@ export default class user extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "user_id" },
+          { name: "id" },
         ]
       },
     ]

@@ -1,34 +1,26 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class sub_food extends Model {
+export default class role extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    sub_id: {
+    role_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    sub_name: {
+    role_name: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
+    list_permission: {
       type: DataTypes.STRING(255),
       allowNull: true
-    },
-    sub_price: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    food_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'food',
-        key: 'food_id'
-      }
     }
   }, {
     sequelize,
-    tableName: 'sub_food',
+    tableName: 'role',
     timestamps: false,
     indexes: [
       {
@@ -36,14 +28,7 @@ export default class sub_food extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "sub_id" },
-        ]
-      },
-      {
-        name: "food_id",
-        using: "BTREE",
-        fields: [
-          { name: "food_id" },
+          { name: "role_id" },
         ]
       },
     ]
