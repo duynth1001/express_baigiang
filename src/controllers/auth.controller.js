@@ -2,6 +2,8 @@ import initModels from "../models/init-models.js";
 import sequelize from "../models/connect.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import transporter from "../config/transporter.js";
+import { createToken } from "../config/jwt.js";
 const model = initModels(sequelize);
 const register = async (req, res, next) => {
   try {
@@ -34,6 +36,26 @@ const register = async (req, res, next) => {
       email: email,
       pass_word: bcrypt.hashSync(pass, 10),
     });
+
+    //cấu hình info email
+    const mailOption = {
+      from:process.env.MAIL_USER,
+      to:email,
+      subject:"Welcome to Our Service",
+      text:`Hello ${fullName}. Best Regard.`,
+      html:`<h1>ahihi đồ ngốc</h1>`
+    }
+
+    //gửi mail
+    transporter.sendMail(mailOption,(err,info)=>{
+      if (err) {
+        return res.status(500).json({message:"Sending email error"});
+      }
+      return res.status(200).json({
+        message: "Đăng ký thành công",
+        data: userNew,
+      });
+    })
 
     // Remove the password from the returned object
     const userWithoutPassword = userNew.toJSON();
@@ -80,10 +102,7 @@ const login = async (req, res) => {
     //param 1: tạo payload và lưu vào token
     //param 2 : key để tạo token
     //param 3: setting life time của token và thuật toán để tạo token
-    let accessToken = jwt.sign({ payload }, "NODE44", {
-      algorithm: "HS256",
-      expiresIn: "1d",
-    });
+    let accessToken = createToken({userId:user.user_id});
     return res.status(200).json({
       message: "Login successfully",
       data: accessToken,
