@@ -5,7 +5,7 @@ import { Op } from "sequelize";//Operator toán tử : LIKE,AND,IN,OR
 const model = initModels(sequelize);
 const getListVideo = async(req,res)=>{
     try {
-        let data=await model.video.findAll();
+        let data=await model.video.findAll(); //return promise
         return res.status(200).json(data);        
     } catch (error) {
        return res.status(500).json({message:"error"})
@@ -58,6 +58,9 @@ const getVideoPage =async (req,res)=>{
         return res.status(500).json({message:'error'});
     }
 }
+
+
+
 export {
     getListVideo, getType,getListVideoType,getVideoPage
 }
